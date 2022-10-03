@@ -5,7 +5,13 @@ from anytree import RenderTree
 from flatehr.factory import template_factory
 
 
-def main(template_file: str, *, aql_path: bool = False, inputs: bool = False):
+def main(
+    template_file: str,
+    *,
+    aql_path: bool = False,
+    inputs: bool = False,
+    annotations: bool = False,
+):
     """Shows the template tree, with info about type, cardinality,
     requiredness and optionally aql path and expected inputs.
 
@@ -23,6 +29,11 @@ def main(template_file: str, *, aql_path: bool = False, inputs: bool = False):
         ctx = " , CTX" if node.in_context else ""
         _aql_path = ", " + node.aql_path if aql_path else ""
         _inputs = ", " + json.dumps(node.inputs) if inputs and node.inputs else ""
+        _annotations = (
+            ", " + json.dumps(node.annotations)
+            if annotations and node.annotations
+            else ""
+        )
         print(
-            f"{pre}{str(node)} ({node.rm_type}, {cardinality}{ctx}{_aql_path}{_inputs})"
+            f"{pre}{str(node)} ({node.rm_type}, {cardinality}{ctx}{_aql_path}{_inputs}{_annotations})"
         )
