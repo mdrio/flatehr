@@ -233,7 +233,8 @@ def build_composition(
     env = Environment()
     env.globals["random_ehr_id"] = uuid4
     t = env.from_string(conf._ehr_id.value)
-    ehr_id = t.render(maps_to=conf.ehr_id.maps_to)
+
+    ehr_id = t.render(maps_to=[ehr_id_kvs.get(k) for k in conf.ehr_id.maps_to])
     return composition, ctx, ehr_id
 
 
